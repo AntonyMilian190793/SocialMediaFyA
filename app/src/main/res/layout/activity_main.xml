@@ -8,6 +8,12 @@
     android:background="@drawable/fondo"
     tools:context=".MainActivity">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000"
+        android:alpha="0.0" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -97,6 +103,7 @@
                 android:textAllCaps="false"
                 android:text="Iniciar Sesión"
                 app:cornerRadius="50dp"
+                android:background="@drawable/rounded_button"
                 android:backgroundTint="@color/fya"
                 android:textColor="@color/white"/>
 
@@ -105,18 +112,23 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
+                android:layout_gravity="bottom"
                 android:layout_marginTop="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="¿No tienes cuenta?"/>
+                    android:text="¿No tienes cuenta?"
+                    android:textSize="17sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="REGISTRATE AQUÍ"
-                    android:layout_marginLeft="5dp"/>
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    android:textStyle="bold"/>
             </LinearLayout>
 
 
