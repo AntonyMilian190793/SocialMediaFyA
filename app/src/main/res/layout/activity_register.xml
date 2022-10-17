@@ -62,12 +62,12 @@
                 android:layout_marginLeft="5dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputUserName"
+                    android:id="@+id/textInputUserNameR"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="50"
                     android:hint="Nombre de Usuario"
-                    android:inputType="text">
+                    android:inputType="textEmailAddress">
 
                 </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
@@ -93,12 +93,12 @@
                 android:layout_marginLeft="5dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputEmail"
+                    android:id="@+id/textInputEmailR"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="50"
                     android:hint="Correo eletrónico"
-                    android:inputType="textEmailAddress">
+                    android:inputType="textEmailAddress"
+                    android:maxLength="50">
 
                 </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
@@ -125,11 +125,11 @@
                 app:passwordToggleEnabled="true" >
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputPassword"
+                    android:id="@+id/textInputPasswordR"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="50"
-                    android:hint="Confirmar Contraseña"
+                    android:hint="Contraseña"
                     android:inputType="textPassword">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -157,11 +157,11 @@
                 app:passwordToggleEnabled="true" >
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputConfirmPassword"
+                    android:id="@+id/textInputConfirmPasswordR"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="50"
-                    android:hint="Correo eletrónico"
+                    android:hint="Confimar contraseña"
                     android:inputType="textPassword">
 
                 </com.google.android.material.textfield.TextInputEditText>

@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "541091513872",
-    "project_id": "socialmediafya",
-    "storage_bucket": "socialmediafya.appspot.com"
+    "project_number": "756245353302",
+    "project_id": "socialmediafya-2475f",
+    "storage_bucket": "socialmediafya-2475f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:541091513872:android:da028ac3a0e3ff09ea2c95",
+        "mobilesdk_app_id": "1:756245353302:android:a3fae5fd27af5acf453cf7",
         "android_client_info": {
           "package_name": "com.antonymilian.socialmediafya"
         }
       },
       "oauth_client": [
         {
-          "client_id": "541091513872-v05rn2of7mg7g4ihlt73en9d6defm8ut.apps.googleusercontent.com",
+          "client_id": "756245353302-fpqjqasgm4ci3qd93d3ou74rflc1ibh1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.antonymilian.socialmediafya",
-            "certificate_hash": "86a41033c165878b82944f2a79cad969a03159bb"
+            "certificate_hash": "30fe5ae7d16581e7bf82cfb17275d63ddd977079"
           }
         },
         {
-          "client_id": "541091513872-0abuiobssotgrcv3uafonmgq2monr8uo.apps.googleusercontent.com",
+          "client_id": "756245353302-r59pjlu4if30t4ilsbr9nm4fncamoc0l.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAkG86novF9WBuINOMGVYUOITPq2WbLn1w"
+          "current_key": "AIzaSyCQ4_wu2HYSj-4W1SXV1df1Sj6HOrVC7lc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "541091513872-0abuiobssotgrcv3uafonmgq2monr8uo.apps.googleusercontent.com",
+              "client_id": "756245353302-r59pjlu4if30t4ilsbr9nm4fncamoc0l.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
