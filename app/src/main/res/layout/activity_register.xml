@@ -62,6 +62,7 @@
                 android:layout_marginLeft="5dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputUserName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="50"
@@ -92,6 +93,7 @@
                 android:layout_marginLeft="5dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="50"
@@ -123,6 +125,7 @@
                 app:passwordToggleEnabled="true" >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="50"
@@ -154,6 +157,7 @@
                 app:passwordToggleEnabled="true" >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputConfirmPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="50"
@@ -169,6 +173,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="REGISTRARSE"
