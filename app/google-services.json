@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "541091513872",
+    "project_id": "socialmediafya",
+    "storage_bucket": "socialmediafya.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:541091513872:android:da028ac3a0e3ff09ea2c95",
+        "android_client_info": {
+          "package_name": "com.antonymilian.socialmediafya"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "541091513872-v05rn2of7mg7g4ihlt73en9d6defm8ut.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.antonymilian.socialmediafya",
+            "certificate_hash": "86a41033c165878b82944f2a79cad969a03159bb"
+          }
+        },
+        {
+          "client_id": "541091513872-0abuiobssotgrcv3uafonmgq2monr8uo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkG86novF9WBuINOMGVYUOITPq2WbLn1w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "541091513872-0abuiobssotgrcv3uafonmgq2monr8uo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
