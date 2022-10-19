@@ -119,6 +119,14 @@
                 android:backgroundTint="@color/fya"
                 android:textColor="@color/white"/>
 
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/btnLoginGoogle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginLeft="25dp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
