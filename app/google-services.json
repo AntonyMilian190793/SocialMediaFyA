@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "756245353302-nhctaptfhae0bjlk6uucouktk1qchr0n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.antonymilian.socialmediafya",
+            "certificate_hash": "86a41033c165878b82944f2a79cad969a03159bb"
+          }
+        },
+        {
           "client_id": "756245353302-r59pjlu4if30t4ilsbr9nm4fncamoc0l.apps.googleusercontent.com",
           "client_type": 3
         }
