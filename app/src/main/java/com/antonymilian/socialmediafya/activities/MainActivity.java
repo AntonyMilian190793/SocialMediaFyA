@@ -1,4 +1,4 @@
-package com.antonymilian.socialmediafya;
+package com.antonymilian.socialmediafya.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.antonymilian.socialmediafya.R;
+import com.antonymilian.socialmediafya.models.User;
+import com.antonymilian.socialmediafya.providers.AuthProvider;
+import com.antonymilian.socialmediafya.providers.UsersProvider;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -37,11 +41,11 @@ public class MainActivity extends AppCompatActivity {
     TextInputEditText mTextInputEmail;
     TextInputEditText mTextInputPassword;
     Button mButtonLogin;
-    FirebaseAuth mAuth;
+    AuthProvider mAuthProvider;
     SignInButton mButtonGoogle;
     private GoogleSignInClient mGoogleSignInClient;
     private final int REQUEST_CODE_GOOGLE = 1;
-    FirebaseFirestore mFirestore;
+    UsersProvider mUsersProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
         mButtonLogin = findViewById(R.id.btnLogin);
         mButtonGoogle = findViewById(R.id.btnLoginGoogle);
 
-        mAuth = FirebaseAuth.getInstance();
-        mFirestore = FirebaseFirestore.getInstance();
+        mAuthProvider = new AuthProvider();
+        mUsersProvider = new UsersProvider();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -113,13 +117,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mAuthProvider.googleLogin(acct).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            String id = mAuth.getCurrentUser().getUid();
+                            String id = mAuthProvider.getUid();
                             checkUserExist(id);
                         }else {
                             // If sign in fails, display a message to the user.
@@ -133,17 +135,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkUserExist(final String id) {
-        mFirestore.collection("Users").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        mUsersProvider.getUser(id).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if(documentSnapshot.exists()){
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                     startActivity(intent);
                 }else{
-                    String email = mAuth.getCurrentUser().getEmail();
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("email", email);
-                    mFirestore.collection("Users").document(id).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    String email = mAuthProvider.getEmail();
+                    User user = new User();
+                    user.setEmail(email);
+                    user.setId(id);
+                    mUsersProvider.create(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
@@ -162,8 +165,7 @@ public class MainActivity extends AppCompatActivity {
     private void login() {
         String email = mTextInputEmail.getText().toString();
         String password = mTextInputPassword.getText().toString();
-
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuthProvider.login(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
