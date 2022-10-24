@@ -1,5 +1,6 @@
 package com.antonymilian.socialmediafya.providers;
 
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -13,6 +14,10 @@ public class AuthProvider {
 
     public  AuthProvider(){
         mAuth = FirebaseAuth.getInstance();
+    }
+
+    public Task<AuthResult> register(String email, String password){
+        return mAuth.createUserWithEmailAndPassword(email, password);
     }
 
     public Task<AuthResult> login(String email, String password){

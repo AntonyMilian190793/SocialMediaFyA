@@ -10,6 +10,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.antonymilian.socialmediafya.R;
+import com.antonymilian.socialmediafya.models.User;
+import com.antonymilian.socialmediafya.providers.AuthProvider;
+import com.antonymilian.socialmediafya.providers.UsersProvider;
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -24,8 +28,8 @@ public class CompleteProfileActivity extends AppCompatActivity {
     TextInputEditText mTextInputUsername;
 
     Button mButtonConfim;
-    FirebaseAuth mAuth;
-    FirebaseFirestore mFirestore;
+    AuthProvider mAuthProvider;
+    UsersProvider mUsersProvider;
 
 
 
@@ -38,8 +42,8 @@ public class CompleteProfileActivity extends AppCompatActivity {
         mTextInputUsername = findViewById(R.id.textInputUserNameR);
         mButtonConfim = findViewById(R.id.btnConfirm);
 
-        mAuth = FirebaseAuth.getInstance();
-        mFirestore = FirebaseFirestore.getInstance();
+        mAuthProvider = new AuthProvider();
+        mUsersProvider = new UsersProvider();
 
         mButtonConfim.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,11 +65,15 @@ public class CompleteProfileActivity extends AppCompatActivity {
     }
 
     private void updateUser(final String username){
-        String id = mAuth.getCurrentUser().getUid();
+        String id = mAuthProvider.getUid();
+        User user = new User();
+        user.setUsername(username);
         Map<String, Object> map = new HashMap<>();
         map.put("username", username);
+        user.setId(id);
         //map.put("password", password);
-        mFirestore.collection("Users").document(id).update(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+        mUsersProvider.update(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
