@@ -3,6 +3,7 @@ package com.antonymilian.socialmediafya.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -23,6 +24,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+import dmax.dialog.SpotsDialog;
+
 public class CompleteProfileActivity extends AppCompatActivity {
 
     TextInputEditText mTextInputUsername;
@@ -30,6 +33,7 @@ public class CompleteProfileActivity extends AppCompatActivity {
     Button mButtonConfim;
     AuthProvider mAuthProvider;
     UsersProvider mUsersProvider;
+    AlertDialog mDialog;
 
 
 
@@ -44,6 +48,8 @@ public class CompleteProfileActivity extends AppCompatActivity {
 
         mAuthProvider = new AuthProvider();
         mUsersProvider = new UsersProvider();
+
+        mDialog = new SpotsDialog(CompleteProfileActivity.this, "Espere por favor");
 
         mButtonConfim.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,11 +77,13 @@ public class CompleteProfileActivity extends AppCompatActivity {
         Map<String, Object> map = new HashMap<>();
         map.put("username", username);
         user.setId(id);
+        mDialog.show();
         //map.put("password", password);
 
         mUsersProvider.update(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
+                mDialog.dismiss();
                 if (task.isSuccessful()) {
                     Intent intent = new Intent(CompleteProfileActivity.this, HomeActivity.class);
                     startActivity(intent);
