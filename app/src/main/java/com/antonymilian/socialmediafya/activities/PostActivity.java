@@ -1,5 +1,6 @@
 package com.antonymilian.socialmediafya.activities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,11 +10,16 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.antonymilian.socialmediafya.R;
 import com.antonymilian.socialmediafya.utils.FileUtil;
+import com.antonymilian.socialmediafya.utils.ImageProvider;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 
@@ -21,6 +27,8 @@ public class PostActivity extends AppCompatActivity {
 
     ImageView mImagenViewPost1;
     File mImageFile;
+    Button mButtonPost;
+    ImageProvider mImageProvider;
     private final int GALLERY_REQUEST_CODE = 1;
 
     @Override
@@ -29,6 +37,15 @@ public class PostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post);
 
         mImagenViewPost1 = findViewById(R.id.imageViewPost1);
+        mButtonPost = findViewById(R.id.btnPost);
+        mImageProvider = new ImageProvider();
+
+        mButtonPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveImage();
+            }
+        });
         mImagenViewPost1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -36,6 +53,19 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void saveImage() {
+        mImageProvider.save(PostActivity.this, mImageFile).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(PostActivity.this, "La imagen se almaceno correctamente!", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(PostActivity.this, "Hubo un error al almacenar la imagen!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     private void openGalLery() {
