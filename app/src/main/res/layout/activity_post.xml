@@ -173,20 +173,20 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
-                    app:cardBackgroundColor="@color/black"
+                    app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="10dp">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/ic_tecnologia"/>
+                        android:src="@drawable/ic_noticias"/>
                 </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TECNOLOGIA"
+                    android:text="NOTICIAS"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textStyle="bold"
@@ -205,20 +205,20 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
-                    app:cardBackgroundColor="@color/black"
+                    app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="10dp">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/ic_tecnologia"/>
+                        android:src="@drawable/ic_informe"/>
                 </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TECNOLOGIA"
+                    android:text="INFORME"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textStyle="bold"
@@ -237,20 +237,20 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
-                    app:cardBackgroundColor="@color/black"
+                    app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="10dp">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/ic_tecnologia" />
+                        android:src="@drawable/ic_colegio" />
                 </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TECNOLOGIA"
+                    android:text="COLEGIOS"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textStyle="bold"
@@ -269,20 +269,20 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
-                    app:cardBackgroundColor="@color/black"
+                    app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="10dp">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/ic_tecnologia"/>
+                        android:src="@drawable/ic_otros"/>
                 </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TECNOLOGIA"
+                    android:text="OTROS"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textStyle="bold"
