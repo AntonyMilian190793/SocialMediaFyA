@@ -43,8 +43,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
-    implementation 'com.github.d-max:spots-dialog:0.7@aar'
 
+    implementation 'com.github.d-max:spots-dialog:0.7@aar'
+    implementation 'com.google.firebase:firebase-storage:20.1.0'
+    implementation 'id.zelory:compressor:2.1.1'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
