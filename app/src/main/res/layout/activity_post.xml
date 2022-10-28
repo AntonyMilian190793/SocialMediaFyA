@@ -94,12 +94,12 @@
                 android:layout_marginLeft="5dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputPrice"
+                    android:id="@+id/textInputvideoGame"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="50"
                     android:hint="Nombre de la publicación"
-                    android:inputType="text">
+                    android:inputType="text"
+                    android:maxLength="50">
 
                 </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
@@ -127,12 +127,12 @@
                 android:layout_marginLeft="5dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputVideoGame"
+                    android:id="@+id/textInpuDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="50"
                     android:hint="Descripción"
                     android:inputType="textMultiLine"
+                    android:maxLength="50"
                     android:maxLines="4">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -141,6 +141,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/textViewCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="CATEGORIAS"
@@ -180,9 +181,10 @@
                     app:cardElevation="10dp">
 
                     <ImageView
+                        android:id="@+id/imageViewNoticias"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/ic_noticias"/>
+                        android:src="@drawable/ic_noticias" />
                 </androidx.cardview.widget.CardView>
 
                 <TextView
@@ -212,9 +214,10 @@
                     app:cardElevation="10dp">
 
                     <ImageView
+                        android:id="@+id/imageViewInforme"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/ic_informe"/>
+                        android:src="@drawable/ic_informe" />
                 </androidx.cardview.widget.CardView>
 
                 <TextView
@@ -244,6 +247,7 @@
                     app:cardElevation="10dp">
 
                     <ImageView
+                        android:id="@+id/imageViewColegios"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_colegio" />
@@ -276,6 +280,7 @@
                     app:cardElevation="10dp">
 
                     <ImageView
+                        android:id="@+id/imageViewOtros"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_otros"/>

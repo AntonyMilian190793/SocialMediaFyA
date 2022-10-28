@@ -1,7 +1,8 @@
-package com.antonymilian.socialmediafya.utils;
+package com.antonymilian.socialmediafya.providers;
 
 import android.content.Context;
 
+import com.antonymilian.socialmediafya.utils.CompressorBitmapImage;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -20,7 +21,12 @@ public class ImageProvider {
     public UploadTask save(Context context, File file){
         byte[] imageByte = CompressorBitmapImage.getImage(context, file.getPath(), 500, 500);
         StorageReference storage = mStorage.child(new Date() + ".jpg");
+        mStorage = storage;
         UploadTask task = storage.putBytes(imageByte);
         return task;
+    }
+
+    public StorageReference getmStorage(){
+        return mStorage;
     }
 }
