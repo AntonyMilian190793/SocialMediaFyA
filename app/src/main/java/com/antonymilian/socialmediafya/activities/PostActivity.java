@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -52,6 +53,7 @@ public class PostActivity extends AppCompatActivity {
     ImageView mImageViewColegios;
     ImageView mImageViewOtros;
     CircleImageView mCircleImageBack;
+    CharSequence options[];
 
     TextView mTextViewCategory;
     private final int GALLERY_REQUEST_CODE = 1;
@@ -63,6 +65,8 @@ public class PostActivity extends AppCompatActivity {
 
     AlertDialog mDialog;
 
+    AlertDialog.Builder mBuilderSelector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +77,10 @@ public class PostActivity extends AppCompatActivity {
         mAuthProvider = new AuthProvider();
 
         mDialog = new SpotsDialog(PostActivity.this, "Espere por favor");
+
+        mBuilderSelector = new AlertDialog.Builder(this);
+        mBuilderSelector.setTitle("Selecciona una opción");
+        options = new CharSequence[]{"Imagen de galeria", "Tomar foto"};
 
         mImagenViewPost1 = findViewById(R.id.imageViewPost1);
         mImagenViewPost2 = findViewById(R.id.imageViewPost2);
@@ -103,14 +111,14 @@ public class PostActivity extends AppCompatActivity {
         mImagenViewPost1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openGalLery(GALLERY_REQUEST_CODE);
+                SelectOptionImage(GALLERY_REQUEST_CODE);
             }
         });
 
         mImagenViewPost2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openGalLery(GALLERY_REQUEST_CODE_2);
+                SelectOptionImage(GALLERY_REQUEST_CODE_2);
             }
         });
 
@@ -146,6 +154,26 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void SelectOptionImage(int requestCode) {
+
+        mBuilderSelector.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                if(i == 0){
+                    openGalLery(requestCode);
+                }else if(i == 1){
+                    takePhoto();
+                }
+            }
+        });
+        mBuilderSelector.show();
+    }
+
+    private void takePhoto() {
+        Toast.makeText(this, "Tomo una foto!", Toast.LENGTH_SHORT).show();
     }
 
     private void clickPost() {
