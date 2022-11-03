@@ -65,6 +65,7 @@ public class PostActivity extends AppCompatActivity {
     private final int GALLERY_REQUEST_CODE = 1;
     private final int GALLERY_REQUEST_CODE_2 = 2;
     private final int PHOTO_REQUEST_CODE = 3;
+    private final int PHOTO_REQUEST_CODE_2 = 4;
 
     String mCategory = "";
     String mTitle = "";
@@ -72,9 +73,15 @@ public class PostActivity extends AppCompatActivity {
     AlertDialog mDialog;
     AlertDialog.Builder mBuilderSelector;
 
+    //foto 1
     String mAbsolutePhotoPath;
     String mPhotoPath;
     File mPhotoFile;
+
+    //foto 2
+    String mAbsolutePhotoPath2;
+    String mPhotoPath2;
+    File mPhotoFile2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,14 +127,14 @@ public class PostActivity extends AppCompatActivity {
         mImagenViewPost1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SelectOptionImage(GALLERY_REQUEST_CODE);
+                SelectOptionImage(1);
             }
         });
 
         mImagenViewPost2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SelectOptionImage(GALLERY_REQUEST_CODE_2);
+                SelectOptionImage(2);
             }
         });
 
@@ -165,30 +172,41 @@ public class PostActivity extends AppCompatActivity {
 
     }
 
-    private void SelectOptionImage(int requestCode) {
+    private void SelectOptionImage(final int numberImage) {
 
         mBuilderSelector.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                if(i == 0){
-                    openGalLery(requestCode);
-                }else if(i == 1){
-                    takePhoto();
+                if (i == 0) {
+                    if (numberImage == 1) {
+                        openGallery(GALLERY_REQUEST_CODE);
+                    }
+                    else if (numberImage == 2) {
+                        openGallery(GALLERY_REQUEST_CODE_2);
+                    }
+                }
+                else if (i == 1){
+                    if (numberImage == 1) {
+                        takePhoto(PHOTO_REQUEST_CODE);
+                    }
+                    else if (numberImage == 2) {
+                        takePhoto(PHOTO_REQUEST_CODE_2);
+                    }
                 }
             }
         });
         mBuilderSelector.show();
     }
 
-    private void takePhoto() {
+    private void takePhoto(int requestCode) {
 
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         if(takePictureIntent.resolveActivity(getPackageManager()) != null){
             File photoFile = null;
             try {
-                photoFile = createPhotoFile();
+                photoFile = createPhotoFile(requestCode);
 
             }catch (Exception e){
                 Toast.makeText(this, "Hubo un error con el archivo" + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -197,20 +215,26 @@ public class PostActivity extends AppCompatActivity {
             if(photoFile != null){
                 Uri photoUri = FileProvider.getUriForFile(PostActivity.this, "com.antonymilian.socialmediafya", photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                startActivityForResult(takePictureIntent, PHOTO_REQUEST_CODE);
+                startActivityForResult(takePictureIntent, requestCode);
             }
         }
     }
 
-    private File createPhotoFile() throws IOException {
+    private File createPhotoFile(int requesCode) throws IOException {
        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
        File photoFile = File.createTempFile(
                new Date() + "_photo",
                ".jpg",
                storageDir
        );
-       mPhotoPath = "file:" + photoFile.getAbsolutePath();
-       mAbsolutePhotoPath = photoFile.getAbsolutePath();
+
+       if(requesCode == PHOTO_REQUEST_CODE){
+           mPhotoPath = "file:" + photoFile.getAbsolutePath();
+           mAbsolutePhotoPath = photoFile.getAbsolutePath();
+       }else if(requesCode == PHOTO_REQUEST_CODE_2){
+           mPhotoPath2 = "file:" + photoFile.getAbsolutePath();
+           mAbsolutePhotoPath2 = photoFile.getAbsolutePath();
+       }
 
        return photoFile;
     }
@@ -220,8 +244,19 @@ public class PostActivity extends AppCompatActivity {
          mDescription = mTextDescription.getText().toString();
 
         if(!mTitle.isEmpty() && !mDescription.isEmpty() && !mCategory.isEmpty()){
-            if(mImageFile != null){
-                saveImage();
+            //Selecciomno ambas imagenes de la galeria
+            if(mImageFile != null && mImageFile2 != null){
+                saveImage(mImageFile, mImageFile2);
+            }
+            //Selecciono las dos fotos de la camara
+            else if(mPhotoFile != null && mPhotoFile2 != null){
+                saveImage(mPhotoFile, mPhotoFile2);
+            }
+            else if(mImageFile != null && mPhotoFile2 != null){
+                saveImage(mImageFile, mPhotoFile2);
+            }
+            else if(mPhotoFile != null && mImageFile2 != null){
+                saveImage(mPhotoFile, mImageFile2);
             }else{
                 Toast.makeText(this, "Debe seleccionar una imagen!", Toast.LENGTH_SHORT).show();
             }
@@ -230,9 +265,9 @@ public class PostActivity extends AppCompatActivity {
         }
     }
 
-    private void saveImage() {
+    private void saveImage(File imageFile1, File imageFile2) {
         mDialog.show();
-        mImageProvider.save(PostActivity.this, mImageFile).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+        mImageProvider.save(PostActivity.this, imageFile1).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                 if(task.isSuccessful()){
@@ -241,7 +276,7 @@ public class PostActivity extends AppCompatActivity {
                         public void onSuccess(Uri uri) {
                             final String url = uri.toString();
 
-                            mImageProvider.save(PostActivity.this, mImageFile2).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                            mImageProvider.save(PostActivity.this, imageFile2).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> taskImage2) {
                                     if(taskImage2.isSuccessful()){
@@ -299,7 +334,7 @@ public class PostActivity extends AppCompatActivity {
         mImageFile2 = null;
     }
 
-    private void openGalLery(int requestCode) {
+    private void openGallery(int requestCode) {
         Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");
         startActivityForResult(galleryIntent, requestCode);
@@ -311,6 +346,7 @@ public class PostActivity extends AppCompatActivity {
 
         if(requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK){
             try {
+                mPhotoFile = null;
                 mImageFile = FileUtil.from(this, data.getData());
                 mImagenViewPost1.setImageBitmap(BitmapFactory.decodeFile(mImageFile.getAbsolutePath()));
             }catch (Exception e){
@@ -321,6 +357,7 @@ public class PostActivity extends AppCompatActivity {
 
         if(requestCode == GALLERY_REQUEST_CODE_2 && resultCode == RESULT_OK){
             try {
+                mPhotoFile2 = null;
                 mImageFile2 = FileUtil.from(this, data.getData());
                 mImagenViewPost2.setImageBitmap(BitmapFactory.decodeFile(mImageFile2.getAbsolutePath()));
             }catch (Exception e){
@@ -331,7 +368,17 @@ public class PostActivity extends AppCompatActivity {
 
         //Seleccion de fotografia
         if(requestCode == PHOTO_REQUEST_CODE && resultCode == RESULT_OK){
+            mImageFile = null;
+            mPhotoFile = new File(mAbsolutePhotoPath);
             Picasso.with(PostActivity.this).load(mPhotoPath).into(mImagenViewPost1);
+        }
+
+
+        //Seleccion de fotografia
+        if(requestCode == PHOTO_REQUEST_CODE_2 && resultCode == RESULT_OK){
+            mImageFile2 = null;
+            mPhotoFile2 = new File(mAbsolutePhotoPath);
+            Picasso.with(PostActivity.this).load(mPhotoPath2).into(mImagenViewPost2);
         }
     }
 }
