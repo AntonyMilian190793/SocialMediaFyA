@@ -64,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
         mButtonLogin = findViewById(R.id.btnLogin);
         mButtonGoogle = findViewById(R.id.btnLoginGoogle);
 
-        mAuthProvider = new AuthProvider();
-        mUsersProvider = new UsersProvider();
 
         mDialog = new SpotsDialog(MainActivity.this, "Espere por favor");
 
@@ -75,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        mAuthProvider = new AuthProvider();
+        mUsersProvider = new UsersProvider();
 
         mButtonGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +99,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(mAuthProvider.getUserSession() != null){
+            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
     }
 
     private void signInGoogle() {
