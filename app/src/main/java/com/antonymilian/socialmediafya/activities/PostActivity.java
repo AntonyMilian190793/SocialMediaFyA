@@ -220,7 +220,7 @@ public class PostActivity extends AppCompatActivity {
         }
     }
 
-    private File createPhotoFile(int requesCode) throws IOException {
+    private File createPhotoFile(int requestCode) throws IOException {
        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
        File photoFile = File.createTempFile(
                new Date() + "_photo",
@@ -228,15 +228,15 @@ public class PostActivity extends AppCompatActivity {
                storageDir
        );
 
-       if(requesCode == PHOTO_REQUEST_CODE){
-           mPhotoPath = "file:" + photoFile.getAbsolutePath();
-           mAbsolutePhotoPath = photoFile.getAbsolutePath();
-       }else if(requesCode == PHOTO_REQUEST_CODE_2){
-           mPhotoPath2 = "file:" + photoFile.getAbsolutePath();
-           mAbsolutePhotoPath2 = photoFile.getAbsolutePath();
-       }
-
-       return photoFile;
+        if (requestCode == PHOTO_REQUEST_CODE) {
+            mPhotoPath = "file:" + photoFile.getAbsolutePath();
+            mAbsolutePhotoPath = photoFile.getAbsolutePath();
+        }
+        else if (requestCode == PHOTO_REQUEST_CODE_2) {
+            mPhotoPath2 = "file:" + photoFile.getAbsolutePath();
+            mAbsolutePhotoPath2 = photoFile.getAbsolutePath();
+        }
+        return photoFile;
     }
 
     private void clickPost() {
@@ -244,20 +244,21 @@ public class PostActivity extends AppCompatActivity {
          mDescription = mTextDescription.getText().toString();
 
         if(!mTitle.isEmpty() && !mDescription.isEmpty() && !mCategory.isEmpty()){
-            //Selecciomno ambas imagenes de la galeria
-            if(mImageFile != null && mImageFile2 != null){
+// SELECCIONO AMBAS IMAGENES DE LA GALERIA
+            if (mImageFile != null && mImageFile2 != null ) {
                 saveImage(mImageFile, mImageFile2);
             }
-            //Selecciono las dos fotos de la camara
-            else if(mPhotoFile != null && mPhotoFile2 != null){
+            // TOMO LAS DOS FOTOS DE LA CAMARA
+            else if (mPhotoFile != null && mPhotoFile2 != null) {
                 saveImage(mPhotoFile, mPhotoFile2);
             }
-            else if(mImageFile != null && mPhotoFile2 != null){
+            else if (mImageFile != null && mPhotoFile2 != null) {
                 saveImage(mImageFile, mPhotoFile2);
             }
-            else if(mPhotoFile != null && mImageFile2 != null){
+            else if (mPhotoFile != null && mImageFile2 != null) {
                 saveImage(mPhotoFile, mImageFile2);
-            }else{
+            }
+            else{
                 Toast.makeText(this, "Debe seleccionar una imagen!", Toast.LENGTH_SHORT).show();
             }
         }else{
@@ -366,18 +367,21 @@ public class PostActivity extends AppCompatActivity {
             }
         }
 
-        //Seleccion de fotografia
-        if(requestCode == PHOTO_REQUEST_CODE && resultCode == RESULT_OK){
+        /**
+         * SELECCION DE FOTOGRAFIA
+         */
+        if (requestCode == PHOTO_REQUEST_CODE && resultCode == RESULT_OK) {
             mImageFile = null;
             mPhotoFile = new File(mAbsolutePhotoPath);
             Picasso.with(PostActivity.this).load(mPhotoPath).into(mImagenViewPost1);
         }
 
-
-        //Seleccion de fotografia
-        if(requestCode == PHOTO_REQUEST_CODE_2 && resultCode == RESULT_OK){
+        /**
+         * SELECCION DE FOTOGRAFIA
+         */
+        if (requestCode == PHOTO_REQUEST_CODE_2 && resultCode == RESULT_OK) {
             mImageFile2 = null;
-            mPhotoFile2 = new File(mAbsolutePhotoPath);
+            mPhotoFile2 = new File(mAbsolutePhotoPath2);
             Picasso.with(PostActivity.this).load(mPhotoPath2).into(mImagenViewPost2);
         }
     }
