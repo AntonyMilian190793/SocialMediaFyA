@@ -9,5 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="fya">#E30613</color>
     <color name="fyagray">#878787</color>
+    <color name="fyagray2">#FFF1EFEF</color>
 
 </resources>
