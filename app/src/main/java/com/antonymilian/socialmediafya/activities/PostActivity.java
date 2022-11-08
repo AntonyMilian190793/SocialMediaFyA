@@ -59,19 +59,19 @@ public class PostActivity extends AppCompatActivity {
     ImageView mImageViewColegios;
     ImageView mImageViewOtros;
     CircleImageView mCircleImageBack;
-    CharSequence options[];
-
     TextView mTextViewCategory;
-    private final int GALLERY_REQUEST_CODE = 1;
-    private final int GALLERY_REQUEST_CODE_2 = 2;
-    private final int PHOTO_REQUEST_CODE = 3;
-    private final int PHOTO_REQUEST_CODE_2 = 4;
+    AlertDialog mDialog;
 
     String mCategory = "";
     String mTitle = "";
     String mDescription = "";
-    AlertDialog mDialog;
+
     AlertDialog.Builder mBuilderSelector;
+    CharSequence options[];
+    private final int GALLERY_REQUEST_CODE = 1;
+    private final int GALLERY_REQUEST_CODE_2 = 2;
+    private final int PHOTO_REQUEST_CODE = 3;
+    private final int PHOTO_REQUEST_CODE_2 = 4;
 
     //foto 1
     String mAbsolutePhotoPath;
