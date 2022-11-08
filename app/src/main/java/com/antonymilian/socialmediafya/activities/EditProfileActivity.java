@@ -185,7 +185,9 @@ public class EditProfileActivity extends AppCompatActivity {
                                                 user.setPhone(mPhone);
                                                 user.setImageProfile(urlProfile);
                                                 user.setImageCover(urlCover);
-                                                user.setId(mAuthProvider.getUid());
+                                                user.setId(mAuthProvider.getUid()
+
+                                                );
                                                 mUsersProvider.update(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
