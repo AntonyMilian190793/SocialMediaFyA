@@ -1,6 +1,7 @@
 package com.antonymilian.socialmediafya.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.antonymilian.socialmediafya.R;
+import com.antonymilian.socialmediafya.activities.PostDetailActivity;
 import com.antonymilian.socialmediafya.models.Post;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
 
 public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.ViewHolder> {
@@ -27,6 +30,10 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Post post) {
+
+        DocumentSnapshot document = getSnapshots().getSnapshot(position);
+        final String postId = document.getId();
+
         holder.textViewtitle.setText(post.getTitle());
         holder.textViewDescription.setText(post.getDescripcion());
 
@@ -35,7 +42,14 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
                 Picasso.with(context).load(post.getImage1()).into(holder.imageViewPost);
             }
         }
-
+            holder.viewHolder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, PostDetailActivity.class);
+                    intent.putExtra("id", postId);
+                    context.startActivity(intent);
+                }
+            });
     }
 
     @NonNull
@@ -50,13 +64,14 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
         TextView textViewtitle;
         TextView textViewDescription;
         ImageView imageViewPost;
+        View viewHolder;
 
         public ViewHolder(View view){
             super(view);
-
             textViewtitle = view.findViewById(R.id.textViewTitlePostCard);
             textViewDescription = view.findViewById(R.id.textViewDescriptionPostCard);
             imageViewPost = view.findViewById(R.id.imageViewPostCard);
+            viewHolder = view;
         }
     }
 }
