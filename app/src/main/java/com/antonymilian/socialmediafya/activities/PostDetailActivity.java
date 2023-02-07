@@ -1,10 +1,13 @@
 package com.antonymilian.socialmediafya.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -44,6 +47,10 @@ public class PostDetailActivity extends AppCompatActivity {
     CircleImageView mCircleImageViewProfile;
     Button mButtonShowProfile;
 
+    CircleImageView mCircleImageViewBack;
+
+    String mIdUser = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +66,14 @@ public class PostDetailActivity extends AppCompatActivity {
         mImageViewCategory = findViewById(R.id.imageViewCategory);
         mCircleImageViewProfile = findViewById(R.id.circleImageProfile);
         mButtonShowProfile = findViewById(R.id.btnShowProfile);
+        mCircleImageViewBack = findViewById(R.id.cicleImageBack);
+
+        mCircleImageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         mPostProvider = new PostProvider();
         mUsersProvider = new UsersProvider();
@@ -66,6 +81,25 @@ public class PostDetailActivity extends AppCompatActivity {
         mExtraPostId = getIntent().getStringExtra("id");
 
         getPost();
+
+        mButtonShowProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToShowProfile();
+            }
+        });
+    }
+
+    private void goToShowProfile() {
+
+        if(!mIdUser.equals("")){
+            Intent intent = new Intent(PostDetailActivity.this, UserProfileActivity.class);
+            intent.putExtra("idUser", mIdUser);
+            startActivity(intent);
+        }else{
+            Toast.makeText(this, "El id del usaurio aún no se carga", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void instanceSlider() {
@@ -123,8 +157,8 @@ public class PostDetailActivity extends AppCompatActivity {
                         }
                     }
                     if(documentSnapshot.contains("idUser")){
-                        String idUser = documentSnapshot.getString("idUser");
-                        getUserInfo(idUser);
+                        mIdUser = documentSnapshot.getString("idUser");
+                        getUserInfo(mIdUser);
                     }
 
 
