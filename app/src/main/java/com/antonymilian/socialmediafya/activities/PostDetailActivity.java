@@ -16,8 +16,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.antonymilian.socialmediafya.R;
+import com.antonymilian.socialmediafya.adapters.CommentAdapter;
 import com.antonymilian.socialmediafya.adapters.SliderAdapter;
 import com.antonymilian.socialmediafya.models.Comment;
 import com.antonymilian.socialmediafya.models.SliderItem;
@@ -25,11 +28,13 @@ import com.antonymilian.socialmediafya.providers.AuthProvider;
 import com.antonymilian.socialmediafya.providers.CommentsProvider;
 import com.antonymilian.socialmediafya.providers.PostProvider;
 import com.antonymilian.socialmediafya.providers.UsersProvider;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -50,6 +55,7 @@ public class PostDetailActivity extends AppCompatActivity {
     UsersProvider mUsersProvider;
     CommentsProvider mCommentsProvider;
     AuthProvider mAuthProvider;
+    CommentAdapter mAdapter;
 
     String mExtraPostId;
 
@@ -64,6 +70,7 @@ public class PostDetailActivity extends AppCompatActivity {
 
     CircleImageView mCircleImageViewBack;
     FloatingActionButton mFabComent;
+    RecyclerView mRecyclerView;
 
     String mIdUser = "";
 
@@ -84,6 +91,11 @@ public class PostDetailActivity extends AppCompatActivity {
         mButtonShowProfile = findViewById(R.id.btnShowProfile);
         mCircleImageViewBack = findViewById(R.id.cicleImageBack);
         mFabComent = findViewById(R.id.fabComent);
+        mRecyclerView = findViewById(R.id.recycleViewComments);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(PostDetailActivity.this);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+
 
         mPostProvider = new PostProvider();
         mUsersProvider = new UsersProvider();
@@ -115,6 +127,24 @@ public class PostDetailActivity extends AppCompatActivity {
                 goToShowProfile();
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Query query = mCommentsProvider.getCommentsByPost(mExtraPostId);
+        FirestoreRecyclerOptions<Comment> options = new FirestoreRecyclerOptions.Builder<Comment>()
+                .setQuery(query, Comment.class)
+                .build();
+        mAdapter = new CommentAdapter(options, PostDetailActivity.this);
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mAdapter.stopListening();
     }
 
     private void showDialogComent() {
