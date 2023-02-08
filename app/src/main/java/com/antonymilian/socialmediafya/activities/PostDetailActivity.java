@@ -1,11 +1,16 @@
 package com.antonymilian.socialmediafya.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +22,7 @@ import com.antonymilian.socialmediafya.models.SliderItem;
 import com.antonymilian.socialmediafya.providers.PostProvider;
 import com.antonymilian.socialmediafya.providers.UsersProvider;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -48,6 +54,7 @@ public class PostDetailActivity extends AppCompatActivity {
     Button mButtonShowProfile;
 
     CircleImageView mCircleImageViewBack;
+    FloatingActionButton mFabComent;
 
     String mIdUser = "";
 
@@ -67,6 +74,8 @@ public class PostDetailActivity extends AppCompatActivity {
         mCircleImageViewProfile = findViewById(R.id.circleImageProfile);
         mButtonShowProfile = findViewById(R.id.btnShowProfile);
         mCircleImageViewBack = findViewById(R.id.cicleImageBack);
+        mFabComent = findViewById(R.id.fabComent);
+
 
         mCircleImageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,12 +91,59 @@ public class PostDetailActivity extends AppCompatActivity {
 
         getPost();
 
+        mFabComent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogComent();
+            }
+        });
+
         mButtonShowProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToShowProfile();
             }
         });
+    }
+
+    private void showDialogComent() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(PostDetailActivity.this);
+        alert.setTitle("¡COMENTARIO!");
+        alert.setMessage("Ingresa tu Comentario");
+
+        final EditText editText = new EditText( PostDetailActivity.this);
+        editText.setHint("Texto");
+
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+          LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(36, 0, 36, 36);
+        editText.setLayoutParams(params);
+        RelativeLayout container = new RelativeLayout(PostDetailActivity.this);
+        RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+        );
+        container.setLayoutParams(relativeParams);
+        container.addView(editText);
+
+        alert.setView(container);
+
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String value = editText.getText().toString();
+            }
+        });
+        alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        alert.show();
     }
 
     private void goToShowProfile() {
@@ -97,7 +153,7 @@ public class PostDetailActivity extends AppCompatActivity {
             intent.putExtra("idUser", mIdUser);
             startActivity(intent);
         }else{
-            Toast.makeText(this, "El id del usaurio aún no se carga", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "El id del usuario aún no se carga", Toast.LENGTH_SHORT).show();
         }
 
     }
