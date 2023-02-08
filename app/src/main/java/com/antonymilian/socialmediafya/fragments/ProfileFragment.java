@@ -2,15 +2,14 @@ package com.antonymilian.socialmediafya.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.antonymilian.socialmediafya.R;
 import com.antonymilian.socialmediafya.activities.EditProfileActivity;
@@ -31,8 +30,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class ProfileFragment extends Fragment {
 
-    LinearLayout mLinearLoyoutEditProfile;
     View mView;
+    LinearLayout mLinearLoyoutEditProfile;
     TextView mTextViewUsername;
     TextView mTextViewPhome;
     TextView mTextViewEmail;
