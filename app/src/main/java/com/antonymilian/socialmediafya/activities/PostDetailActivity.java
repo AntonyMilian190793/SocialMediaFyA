@@ -14,14 +14,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.antonymilian.socialmediafya.R;
 import com.antonymilian.socialmediafya.adapters.SliderAdapter;
+import com.antonymilian.socialmediafya.models.Comment;
 import com.antonymilian.socialmediafya.models.SliderItem;
+import com.antonymilian.socialmediafya.providers.AuthProvider;
+import com.antonymilian.socialmediafya.providers.CommentsProvider;
 import com.antonymilian.socialmediafya.providers.PostProvider;
 import com.antonymilian.socialmediafya.providers.UsersProvider;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
@@ -30,6 +36,7 @@ import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -41,6 +48,8 @@ public class PostDetailActivity extends AppCompatActivity {
     List<SliderItem> mSliderItems = new ArrayList<>();
     PostProvider mPostProvider;
     UsersProvider mUsersProvider;
+    CommentsProvider mCommentsProvider;
+    AuthProvider mAuthProvider;
 
     String mExtraPostId;
 
@@ -76,6 +85,10 @@ public class PostDetailActivity extends AppCompatActivity {
         mCircleImageViewBack = findViewById(R.id.cicleImageBack);
         mFabComent = findViewById(R.id.fabComent);
 
+        mPostProvider = new PostProvider();
+        mUsersProvider = new UsersProvider();
+        mCommentsProvider = new CommentsProvider();
+        mAuthProvider = new AuthProvider();
 
         mCircleImageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,8 +97,6 @@ public class PostDetailActivity extends AppCompatActivity {
             }
         });
 
-        mPostProvider = new PostProvider();
-        mUsersProvider = new UsersProvider();
 
         mExtraPostId = getIntent().getStringExtra("id");
 
@@ -135,6 +146,12 @@ public class PostDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String value = editText.getText().toString();
+                if(!value.isEmpty()){
+                    createComment(value);    
+                }else{
+                    Toast.makeText(PostDetailActivity.this, "Debe ingresar el comentario!", Toast.LENGTH_SHORT).show();
+                }
+                
             }
         });
         alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -144,6 +161,25 @@ public class PostDetailActivity extends AppCompatActivity {
             }
         });
         alert.show();
+    }
+
+    private void createComment(String value) {
+        Comment comment = new Comment();
+        comment.setComment(value);
+        comment.setIdPost(mExtraPostId);
+        comment.setIdUser(mAuthProvider.getUid());
+        comment.setTimestamp(new Date().getTime());
+        mCommentsProvider.create(comment).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(PostDetailActivity.this, "El comentario se creó correctamente!", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(PostDetailActivity.this, "No se pudo crear el comentario!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
     private void goToShowProfile() {
