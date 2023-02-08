@@ -92,6 +92,7 @@ public class PostDetailActivity extends AppCompatActivity {
         mCircleImageViewBack = findViewById(R.id.cicleImageBack);
         mFabComent = findViewById(R.id.fabComent);
         mRecyclerView = findViewById(R.id.recycleViewComments);
+        mRecyclerView.setNestedScrollingEnabled(false);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(PostDetailActivity.this);
         mRecyclerView.setLayoutManager(linearLayoutManager);
