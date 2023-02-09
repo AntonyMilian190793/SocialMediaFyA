@@ -14,18 +14,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.antonymilian.socialmediafya.R;
 import com.antonymilian.socialmediafya.activities.PostDetailActivity;
 import com.antonymilian.socialmediafya.models.Post;
+import com.antonymilian.socialmediafya.providers.UsersProvider;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
 
 public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.ViewHolder> {
 
     Context context;
+    UsersProvider mUsersProviders;
 
     public PostsAdapter(FirestoreRecyclerOptions<Post> options, Context context){
         super(options);
         this.context = context;
+        mUsersProviders = new UsersProvider();
+
     }
 
     @Override
@@ -34,7 +39,7 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
         DocumentSnapshot document = getSnapshots().getSnapshot(position);
         final String postId = document.getId();
 
-        holder.textViewtitle.setText(post.getTitle());
+        holder.textViewtitle.setText(post.getTitle().toUpperCase());
         holder.textViewDescription.setText(post.getDescripcion());
 
         if(post.getImage1() != null){
@@ -50,6 +55,24 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
                     context.startActivity(intent);
                 }
             });
+
+        getUserUInfo(post.getIdUser(), holder);
+    }
+
+    private void getUserUInfo(String idUser, final ViewHolder holder) {
+        mUsersProviders.getUser(idUser).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                if(documentSnapshot.exists()){
+                    if(documentSnapshot.contains("username")){
+                        String username = documentSnapshot.getString("username");
+                        holder.textViewUsername.setText("By: " + username.toUpperCase());
+                    }
+                }
+
+            }
+        });
     }
 
     @NonNull
@@ -63,6 +86,7 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
 
         TextView textViewtitle;
         TextView textViewDescription;
+        TextView textViewUsername;
         ImageView imageViewPost;
         View viewHolder;
 
@@ -70,6 +94,7 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
             super(view);
             textViewtitle = view.findViewById(R.id.textViewTitlePostCard);
             textViewDescription = view.findViewById(R.id.textViewDescriptionPostCard);
+            textViewUsername = view.findViewById(R.id.textViewUsernamePostCard);
             imageViewPost = view.findViewById(R.id.imageViewPostCard);
             viewHolder = view;
         }
