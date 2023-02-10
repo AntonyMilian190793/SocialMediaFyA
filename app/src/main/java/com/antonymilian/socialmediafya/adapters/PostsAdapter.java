@@ -93,7 +93,14 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 if(queryDocumentSnapshots != null){
                     int numerLikes = queryDocumentSnapshots.size();
-                    holder.textViewLikes.setText(String.valueOf(numerLikes) + " Me gustas");
+
+                    if(numerLikes == 0){
+                        holder.textViewLikes.setText(" No tiene me gusta");
+                    }else if(numerLikes == 1){
+                        holder.textViewLikes.setText(String.valueOf(numerLikes) + " Me gusta");
+                    }else{
+                        holder.textViewLikes.setText(String.valueOf(numerLikes) + " Me gustas");
+                    }
                 }else{
                     Toast.makeText(context, "La consulta es nula", Toast.LENGTH_SHORT).show();
                 }
@@ -120,7 +127,7 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
     }
 
     private void checkIfExistsLike(String idPost, String idUser, final ViewHolder holder) {
-        mLikesProvider.getLikeByPostAndUser(idUser, idPost).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        mLikesProvider.getLikeByPostAndUser(idPost, idUser).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 int numberDocuments = queryDocumentSnapshots.size();
