@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -75,9 +76,9 @@ public class PostDetailActivity extends AppCompatActivity {
     CircleImageView mCircleImageViewProfile;
     Button mButtonShowProfile;
 
-    CircleImageView mCircleImageViewBack;
     FloatingActionButton mFabComent;
     RecyclerView mRecyclerView;
+    Toolbar mToolbar;
 
     String mIdUser = "";
 
@@ -98,10 +99,14 @@ public class PostDetailActivity extends AppCompatActivity {
         mImageViewCategory = findViewById(R.id.imageViewCategory);
         mCircleImageViewProfile = findViewById(R.id.circleImageProfile);
         mButtonShowProfile = findViewById(R.id.btnShowProfile);
-        mCircleImageViewBack = findViewById(R.id.cicleImageBack);
         mFabComent = findViewById(R.id.fabComent);
         mRecyclerView = findViewById(R.id.recycleViewComments);
+        mToolbar = findViewById(R.id.toolbar);
         mRecyclerView.setNestedScrollingEnabled(false);
+
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(PostDetailActivity.this);
         mRecyclerView.setLayoutManager(linearLayoutManager);
@@ -112,13 +117,6 @@ public class PostDetailActivity extends AppCompatActivity {
         mCommentsProvider = new CommentsProvider();
         mAuthProvider = new AuthProvider();
         mLikesProvider = new LikesProvider();
-
-        mCircleImageViewBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
 
         mExtraPostId = getIntent().getStringExtra("id");

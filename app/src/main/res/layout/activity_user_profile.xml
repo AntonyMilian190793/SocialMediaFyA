@@ -17,11 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="@color/fya"
             >
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:transitionName="@string/transitionname_picture"
+                app:layout_collapseMode="parallax"
                 >
 
                 <View
@@ -35,9 +38,7 @@
                     android:layout_height="200dp"
                     android:alpha="0.8"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_fondorojo"
-                    android:transitionName="@string/transitionname_picture"
-                    app:layout_collapseMode="parallax" />
+                    android:src="@drawable/ic_fondorojo" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/circleImageProfile"
@@ -141,6 +142,12 @@
 
 
             </FrameLayout>
+            
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"/>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -183,12 +190,6 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/cicleImageBack"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:src="@drawable/ic_back"
-        app:civ_circle_background_color="@color/white"
-        android:layout_margin="15dp"/>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

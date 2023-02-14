@@ -2,12 +2,14 @@ package com.antonymilian.socialmediafya.activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,11 +38,11 @@ public class UserProfileActivity extends AppCompatActivity {
     TextView mTextViewPostNumber;
     ImageView mImageViewCover;
     CircleImageView mCicleImageViewProfile;
+    Toolbar mToolbar;
     UsersProvider mUsersProvider;
     AuthProvider mAuthProvider;
     PostProvider mPostProvider;
     String mExtraidUser;
-    CircleImageView mCircleImageViewBack;
     MyPostAdapter mAdapter;
     RecyclerView mRecyclerView;
     TextView mTextViewPostExist;
@@ -60,18 +62,16 @@ public class UserProfileActivity extends AppCompatActivity {
         mTextViewPostExist = findViewById(R.id.textViewPostExist);
         mImageViewCover = findViewById(R.id.imageViewCover);
         mCicleImageViewProfile = findViewById(R.id.circleImageProfile);
-        mCircleImageViewBack = findViewById(R.id.cicleImageBack);
+        mToolbar = findViewById(R.id.toolbar);
         mRecyclerView = findViewById(R.id.recycleViewMyPost);
+
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UserProfileActivity.this);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
-        mCircleImageViewBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         mUsersProvider = new UsersProvider();
         mAuthProvider = new AuthProvider();
@@ -166,6 +166,14 @@ public class UserProfileActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return true;
     }
 }
