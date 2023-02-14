@@ -10,14 +10,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.antonymilian.socialmediafya.R;
 import com.antonymilian.socialmediafya.activities.EditProfileActivity;
+import com.antonymilian.socialmediafya.adapters.MyPostAdapter;
+import com.antonymilian.socialmediafya.models.Post;
 import com.antonymilian.socialmediafya.providers.AuthProvider;
 import com.antonymilian.socialmediafya.providers.PostProvider;
 import com.antonymilian.socialmediafya.providers.UsersProvider;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
@@ -38,10 +44,12 @@ public class ProfileFragment extends Fragment {
     TextView mTextViewPostNumber;
     ImageView mImageViewCover;
     CircleImageView mCicleImageViewProfile;
+    RecyclerView mRecyclerView;
 
     UsersProvider mUsersProvider;
     AuthProvider mAuthProvider;
     PostProvider mPostProvider;
+    MyPostAdapter mAdapter;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -96,6 +104,11 @@ public class ProfileFragment extends Fragment {
         mTextViewPostNumber = mView.findViewById(R.id.textViewPostNumber);
         mImageViewCover = mView.findViewById(R.id.imageViewCover);
         mCicleImageViewProfile = mView.findViewById(R.id.circleImageProfile);
+        mRecyclerView = mView.findViewById(R.id.recycleViewMyPost);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+
 
         mLinearLoyoutEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +124,24 @@ public class ProfileFragment extends Fragment {
         getUser();
         getPostNumber();
         return mView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Query query = mPostProvider.getPostByUser(mAuthProvider.getUid());
+        FirestoreRecyclerOptions<Post> options = new FirestoreRecyclerOptions.Builder<Post>()
+                .setQuery(query, Post.class)
+                .build();
+        mAdapter = new MyPostAdapter(options, getContext());
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAdapter.startListening();
     }
 
     private void gotoEditProfile() {
