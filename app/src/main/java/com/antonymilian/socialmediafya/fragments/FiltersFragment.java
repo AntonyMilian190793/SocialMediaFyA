@@ -1,14 +1,16 @@
 package com.antonymilian.socialmediafya.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+
 import com.antonymilian.socialmediafya.R;
+import com.antonymilian.socialmediafya.activities.FiltersActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +18,12 @@ import com.antonymilian.socialmediafya.R;
  * create an instance of this fragment.
  */
 public class FiltersFragment extends Fragment {
+
+    View mView;
+    CardView mCardViewNoticias;
+    CardView mCardViewOtros;
+    CardView mCardViewInforme;
+    CardView mCardViewColegios;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +69,46 @@ public class FiltersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_filters, container, false);
+        mView = inflater.inflate(R.layout.fragment_filters, container, false);
+        mCardViewNoticias = mView.findViewById(R.id.CardViewNoticias);
+        mCardViewOtros = mView.findViewById(R.id.CardViewOtros);
+        mCardViewInforme = mView.findViewById(R.id.CardViewInforme);
+        mCardViewColegios = mView.findViewById(R.id.CardViewColegios);
+
+        mCardViewNoticias.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToFilterActivity("Noticias");
+            }
+        });
+
+        mCardViewOtros.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToFilterActivity("Otros");
+            }
+        });
+
+        mCardViewInforme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToFilterActivity("Informe");
+            }
+        });
+
+        mCardViewColegios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToFilterActivity("Colegios");
+            }
+        });
+
+        return mView;
+    }
+
+    private void goToFilterActivity(String category){
+        Intent intent = new Intent(getContext(), FiltersActivity.class);
+        intent.putExtra("category", category);
+        startActivity(intent);
     }
 }
