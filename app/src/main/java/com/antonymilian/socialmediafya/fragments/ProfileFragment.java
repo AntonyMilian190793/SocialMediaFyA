@@ -1,6 +1,7 @@
 package com.antonymilian.socialmediafya.fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +25,8 @@ import com.antonymilian.socialmediafya.providers.UsersProvider;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
@@ -42,6 +46,7 @@ public class ProfileFragment extends Fragment {
     TextView mTextViewPhome;
     TextView mTextViewEmail;
     TextView mTextViewPostNumber;
+    TextView mTextViewPostExist;
     ImageView mImageViewCover;
     CircleImageView mCicleImageViewProfile;
     RecyclerView mRecyclerView;
@@ -101,6 +106,7 @@ public class ProfileFragment extends Fragment {
         mTextViewEmail = mView.findViewById(R.id.textViewEmail);
         mTextViewUsername = mView.findViewById(R.id.textViewUsername);
         mTextViewPhome = mView.findViewById(R.id.textViewPhone);
+        mTextViewPostExist = mView.findViewById(R.id.textViewPostExist);
         mTextViewPostNumber = mView.findViewById(R.id.textViewPostNumber);
         mImageViewCover = mView.findViewById(R.id.imageViewCover);
         mCicleImageViewProfile = mView.findViewById(R.id.circleImageProfile);
@@ -123,7 +129,25 @@ public class ProfileFragment extends Fragment {
 
         getUser();
         getPostNumber();
+        checkIfExistPost();
         return mView;
+    }
+
+    private void checkIfExistPost() {
+        mPostProvider.getPostByUser(mAuthProvider.getUid()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                int numberPost = queryDocumentSnapshots.size();
+
+                if(numberPost > 0){
+                    mTextViewPostExist.setText("Publicaciones");
+                    mTextViewPostExist.setTextColor(Color.RED);
+                }else{
+                    mTextViewPostExist.setText("No hay publicaciones");
+                mTextViewPostExist.setTextColor(Color.GRAY);
+                }
+            }
+        });
     }
 
     @Override

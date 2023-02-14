@@ -1,6 +1,8 @@
 package com.antonymilian.socialmediafya.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +60,12 @@ public class MyPostAdapter extends FirestoreRecyclerAdapter<Post, MyPostAdapter.
 
         holder.textViewtitle.setText(post.getTitle().toUpperCase());
 
+        if(post.getIdUser().equals(mAuthProvider.getUid())){
+            holder.imageViewDelete.setVisibility(View.VISIBLE);
+        }else{
+            holder.imageViewDelete.setVisibility(View.GONE);
+        }
+
         if(post.getImage1() != null){
             if(!post.getImage1().isEmpty()){
                 Picasso.with(context).load(post.getImage1()).into(holder.circleImageViewPost);
@@ -75,10 +83,27 @@ public class MyPostAdapter extends FirestoreRecyclerAdapter<Post, MyPostAdapter.
         holder.imageViewDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                detelePost(postId);
+                showConfirmDelet(postId);
             }
         });
 
+
+
+    }
+
+    private void showConfirmDelet(String postId) {
+        new AlertDialog.Builder(context)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Eliminar publicación")
+                .setMessage("¿Estás seguro de realizar esta acción?")
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        detelePost(postId);
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 
     private void detelePost(String postId) {
