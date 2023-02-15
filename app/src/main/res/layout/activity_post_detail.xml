@@ -71,7 +71,7 @@
                     android:text="Hace 0 min"
                     android:layout_gravity="bottom"
                     android:textStyle="bold"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/fya"/>
 
                 <TextView
                     android:id="@+id/textViewLikes"
@@ -81,7 +81,7 @@
                     android:textStyle="italic"
                     android:layout_marginTop="5dp"
                     android:layout_gravity="bottom"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/fya"/>
 
             </LinearLayout>
 
