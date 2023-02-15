@@ -7,7 +7,24 @@
     tools:context=".fragments.HomeFragment"
     android:layout_marginBottom="50dp">
 
-    <include layout="@layout/action_bar_toolbar"/>
+    <com.mancj.materialsearchbar.MaterialSearchBar
+        style="@style/MaterialSearchBarLight"
+        app:mt_hint="Texto de búsqueda..."
+        app:mt_placeholder="Buscar..."
+        app:mt_maxSuggestionsCount="10"
+        app:mt_searchBarColor="@color/fya"
+        app:mt_placeholderColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:mt_searchIconTint="@color/white"
+        app:mt_menuIconTint="@color/white"
+        app:mt_clearIconTint="@color/white"
+        app:mt_hintColor="@color/white"
+        app:mt_backIconTint="@color/white"
+        app:mt_leftTextSelectorTint="@color/white"
+        app:mt_textColor="@color/white"
+        android:id="@+id/searchBar" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,5 +48,6 @@
         app:backgroundTint="@color/fya"
         android:layout_margin="15dp"
         />
+
 
 </FrameLayout>

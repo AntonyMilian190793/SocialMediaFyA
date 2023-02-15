@@ -26,6 +26,10 @@ public class PostProvider {
         return mCollection.whereEqualTo("category", category).orderBy("timestamp", Query.Direction.DESCENDING);
     }
 
+    public Query getPostBytitle(String title){
+        return mCollection.orderBy("title").startAt(title).endAt(title+'\uf8ff');
+    }
+
     public Query getPostByUser(String id){
         return mCollection.whereEqualTo("idUser", id);
     }
