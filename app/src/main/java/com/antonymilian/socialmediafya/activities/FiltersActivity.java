@@ -2,12 +2,13 @@ package com.antonymilian.socialmediafya.activities;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.antonymilian.socialmediafya.R;
@@ -27,6 +28,7 @@ public class FiltersActivity extends AppCompatActivity {
     PostProvider mPostProvider;
     PostsAdapter mPostAdapter;
     Toolbar mToolbar;
+    TextView mTextViewNumerFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +41,13 @@ public class FiltersActivity extends AppCompatActivity {
         mAuthProvider = new AuthProvider();
         mPostProvider = new PostProvider();
         mToolbar = findViewById(R.id.toolbar);
+        mTextViewNumerFilter = findViewById(R.id.textViewnumberFilter);
+
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Filtros");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(FiltersActivity.this);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(FiltersActivity.this, 2));
 
         Toast.makeText(this, "La categoria que seleccionó es " + mExtraCategory, Toast.LENGTH_SHORT).show();
     }
@@ -54,7 +57,7 @@ public class FiltersActivity extends AppCompatActivity {
         super.onStart();
         Query query = mPostProvider.getPostByCategoryAndTimestamp(mExtraCategory);
         FirestoreRecyclerOptions<Post> options = new FirestoreRecyclerOptions.Builder<Post>().setQuery(query, Post.class).build();
-        mPostAdapter = new PostsAdapter(options, FiltersActivity.this);
+        mPostAdapter = new PostsAdapter(options, FiltersActivity.this, mTextViewNumerFilter);
         mRecyclerView.setAdapter(mPostAdapter);
         mPostAdapter.startListening();
     }
