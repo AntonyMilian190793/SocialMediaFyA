@@ -1,22 +1,26 @@
 package com.antonymilian.socialmediafya.activities;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.os.Bundle;
-import android.view.MenuItem;
 
 import com.antonymilian.socialmediafya.R;
 import com.antonymilian.socialmediafya.fragments.ChatsFragment;
 import com.antonymilian.socialmediafya.fragments.FiltersFragment;
 import com.antonymilian.socialmediafya.fragments.HomeFragment;
 import com.antonymilian.socialmediafya.fragments.ProfileFragment;
+import com.antonymilian.socialmediafya.providers.AuthProvider;
+import com.antonymilian.socialmediafya.providers.TokenProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigation;
+    TokenProvider mTokenProvider;
+    AuthProvider mAuthProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +29,11 @@ public class HomeActivity extends AppCompatActivity {
 
         bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+
+        mTokenProvider = new TokenProvider();
+        mAuthProvider = new AuthProvider();
         openFragment(new HomeFragment());
+        createToken();
     }
 
     public void openFragment(Fragment fragment) {
@@ -55,4 +63,8 @@ public class HomeActivity extends AppCompatActivity {
                     return true;
                 }
             };
+
+    private void createToken( ){
+        mTokenProvider.create(mAuthProvider.getUid());
+    }
 }
