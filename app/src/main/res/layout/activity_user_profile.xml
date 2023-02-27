@@ -194,7 +194,7 @@
         android:id="@+id/fabChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_chat"
+        android:src="@drawable/ic_chat21"
         app:backgroundTint="@color/fya"
         android:layout_gravity="bottom|right"
         android:layout_margin="15dp"
