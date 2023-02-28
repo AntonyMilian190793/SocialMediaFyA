@@ -1,14 +1,21 @@
 package com.antonymilian.socialmediafya.fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.antonymilian.socialmediafya.R;
+import com.antonymilian.socialmediafya.adapters.ChatsAdapter;
+import com.antonymilian.socialmediafya.models.Chat;
+import com.antonymilian.socialmediafya.providers.AuthProvider;
+import com.antonymilian.socialmediafya.providers.ChatsProvider;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.Query;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +26,11 @@ public class ChatsFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    ChatsAdapter mAdapter;
+    RecyclerView mRecyclerView;
+    View mView;
+    ChatsProvider mChatsProviders;
+    AuthProvider mAuthProvider;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -61,6 +73,30 @@ public class ChatsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chats, container, false);
+        mView = inflater.inflate(R.layout.fragment_chats, container, false);
+        mChatsProviders = new ChatsProvider();
+        mAuthProvider = new AuthProvider();
+        mRecyclerView = mView.findViewById(R.id.recycleViewChats);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        return mView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Query query = mChatsProviders.getAll(mAuthProvider.getUid());
+        FirestoreRecyclerOptions<Chat> options = new FirestoreRecyclerOptions.Builder<Chat>().
+                setQuery(query, Chat.class)
+                .build();
+        mAdapter = new ChatsAdapter(options, getContext());
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAdapter.stopListening();
     }
 }
