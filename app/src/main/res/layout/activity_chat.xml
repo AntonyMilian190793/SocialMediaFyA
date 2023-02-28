@@ -7,11 +7,50 @@
     android:fitsSystemWindows="true"
     tools:context=".activities.ChatActivity">
     
-    <TextView
+    <include layout="@layout/action_bar_toolbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleViewMessage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </LinearLayout>
+    
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="CHAT ACTIVITY"
-        android:textAlignment="center"/>
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:layout_margin="10dp">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mensaje..."
+            android:inputType="textMultiLine"
+            android:layout_weight="1"
+            android:background="@drawable/custom_edittex_chat"
+            android:padding="10dp"
+            />
+        
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@mipmap/ic_send_padding"
+            android:layout_marginLeft="10dp"
+            android:background="@color/white"
+            />
+
+
+    </LinearLayout>
+
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
