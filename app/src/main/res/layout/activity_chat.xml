@@ -30,9 +30,10 @@
         android:layout_margin="10dp">
 
         <EditText
+            android:id="@+id/editTextMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mensaje..."
+            android:hint="Mensaje..."
             android:inputType="textMultiLine"
             android:layout_weight="1"
             android:background="@drawable/custom_edittex_chat"
@@ -40,6 +41,7 @@
             />
         
         <ImageView
+            android:id="@+id/imageViewSendMessage"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:src="@mipmap/ic_send_padding"
