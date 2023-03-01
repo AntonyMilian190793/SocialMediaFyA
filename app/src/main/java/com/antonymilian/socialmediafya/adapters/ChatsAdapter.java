@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.antonymilian.socialmediafya.R;
 import com.antonymilian.socialmediafya.models.Chat;
+import com.antonymilian.socialmediafya.providers.AuthProvider;
 import com.antonymilian.socialmediafya.providers.UsersProvider;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -23,11 +24,13 @@ public class ChatsAdapter extends FirestoreRecyclerAdapter<Chat, ChatsAdapter.Vi
 
     Context context;
     UsersProvider mUsersProvider;
+    AuthProvider mAuthProvider;
 
     public ChatsAdapter(FirestoreRecyclerOptions<Chat> options, Context context){
         super(options);
         this.context = context;
         mUsersProvider = new UsersProvider();
+        mAuthProvider = new AuthProvider();
     }
 
     @Override
@@ -35,7 +38,12 @@ public class ChatsAdapter extends FirestoreRecyclerAdapter<Chat, ChatsAdapter.Vi
 
         DocumentSnapshot document = getSnapshots().getSnapshot(position);
         final String chatId = document.getId();
-        getUserInfo(chatId, holder);
+        if(mAuthProvider.getUid().equals(chat.getIdUser1())){
+            getUserInfo(chat.getIdUser2(), holder);
+        }else{
+            getUserInfo(chat.getIdUser1(), holder);
+        }
+
 
 
     }
