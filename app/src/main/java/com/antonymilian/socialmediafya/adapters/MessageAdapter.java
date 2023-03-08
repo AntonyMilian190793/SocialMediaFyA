@@ -41,7 +41,7 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
         DocumentSnapshot document = getSnapshots().getSnapshot(position);
         final String messageId = document.getId();
         holder.textViewMessage.setText(message.getMessage());
-        String relativeTime = RelativeTime.getTimeAgo(message.getTimestamp(), context);
+        String relativeTime = RelativeTime.timeFormatAMPM(message.getTimestamp(), context);
         holder.textViewDate.setText(relativeTime);
 
         if(message.getIdSender().equals(mAuthProvider.getUid())){
@@ -70,6 +70,12 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
             holder.imageViewViewed.setVisibility(View.GONE);
             holder.textViewMessage.setTextColor(Color.DKGRAY);
             holder.textViewDate.setTextColor(Color.LTGRAY);
+        }
+
+        if(message.isViewed()){
+            holder.imageViewViewed.setImageResource(R.drawable.icon_check_blue);
+        }else{
+            holder.imageViewViewed.setImageResource(R.drawable.icon_check_grey);
         }
 
     }
