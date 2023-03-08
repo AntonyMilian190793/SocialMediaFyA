@@ -1,6 +1,7 @@
 package com.antonymilian.socialmediafya.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,8 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
             holder.linearLayoutMessage.setPadding(30, 20, 25, 20);
             holder.linearLayoutMessage.setBackground(context.getResources().getDrawable(R.drawable.rounded_linear_layout));
             holder.imageViewViewed.setVisibility(View.VISIBLE);
+            holder.textViewMessage.setTextColor(Color.WHITE);
+            holder.textViewDate.setTextColor(Color.LTGRAY);
         }else{
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -62,9 +65,11 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
             params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             params.setMargins(0, 0, 150, 0);
             holder.linearLayoutMessage.setLayoutParams(params);
-            holder.linearLayoutMessage.setPadding(30, 20, -40, 20);
+            holder.linearLayoutMessage.setPadding(30, 20, 30, 20);
             holder.linearLayoutMessage.setBackground(context.getResources().getDrawable(R.drawable.rounded_linear_layout_gray));
-            holder.imageViewViewed.setVisibility(View.INVISIBLE);
+            holder.imageViewViewed.setVisibility(View.GONE);
+            holder.textViewMessage.setTextColor(Color.DKGRAY);
+            holder.textViewDate.setTextColor(Color.LTGRAY);
         }
 
     }
