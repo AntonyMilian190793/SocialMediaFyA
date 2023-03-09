@@ -15,12 +15,14 @@ import com.antonymilian.socialmediafya.fragments.HomeFragment;
 import com.antonymilian.socialmediafya.fragments.ProfileFragment;
 import com.antonymilian.socialmediafya.providers.AuthProvider;
 import com.antonymilian.socialmediafya.providers.TokenProvider;
+import com.antonymilian.socialmediafya.providers.UsersProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigation;
     TokenProvider mTokenProvider;
     AuthProvider mAuthProvider;
+    UsersProvider mUsersProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +35,25 @@ public class HomeActivity extends AppCompatActivity {
         mTokenProvider = new TokenProvider();
         mAuthProvider = new AuthProvider();
         openFragment(new HomeFragment());
+        mUsersProvider = new UsersProvider();
         createToken();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateOnline(true);
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        updateOnline(false);
+    }
+    private void updateOnline(boolean status) {
+        mUsersProvider.updateOnline(mAuthProvider.getUid(), status);
+    }
+
+
 
     public void openFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
