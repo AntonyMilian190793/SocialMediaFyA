@@ -16,6 +16,7 @@ import com.antonymilian.socialmediafya.adapters.PostsAdapter;
 import com.antonymilian.socialmediafya.models.Post;
 import com.antonymilian.socialmediafya.providers.AuthProvider;
 import com.antonymilian.socialmediafya.providers.PostProvider;
+import com.antonymilian.socialmediafya.utils.ViewedMessageHelper;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.Query;
 
@@ -60,12 +61,19 @@ public class FiltersActivity extends AppCompatActivity {
         mPostAdapter = new PostsAdapter(options, FiltersActivity.this, mTextViewNumerFilter);
         mRecyclerView.setAdapter(mPostAdapter);
         mPostAdapter.startListening();
+        ViewedMessageHelper.updateOnline(true, FiltersActivity.this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
         mPostAdapter.stopListening();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ViewedMessageHelper.updateOnline(false, FiltersActivity.this);
     }
 
     @Override
@@ -76,4 +84,7 @@ public class FiltersActivity extends AppCompatActivity {
         }
         return true;
     }
+
 }
+
+

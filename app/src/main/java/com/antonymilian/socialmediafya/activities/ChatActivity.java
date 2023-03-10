@@ -26,6 +26,7 @@ import com.antonymilian.socialmediafya.providers.ChatsProvider;
 import com.antonymilian.socialmediafya.providers.MessageProvider;
 import com.antonymilian.socialmediafya.providers.UsersProvider;
 import com.antonymilian.socialmediafya.utils.RelativeTime;
+import com.antonymilian.socialmediafya.utils.ViewedMessageHelper;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -103,6 +104,7 @@ public class ChatActivity extends AppCompatActivity {
         if(mAdapter != null){
             mAdapter.startListening();
         }
+        ViewedMessageHelper.updateOnline(true, ChatActivity.this);
     }
 
 
@@ -110,6 +112,12 @@ public class ChatActivity extends AppCompatActivity {
     public void onStop() {
         super.onStop();
         mAdapter.startListening();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ViewedMessageHelper.updateOnline(false, ChatActivity.this);
     }
 
     private void getMessageChat(){

@@ -21,6 +21,7 @@ import com.antonymilian.socialmediafya.models.Post;
 import com.antonymilian.socialmediafya.providers.AuthProvider;
 import com.antonymilian.socialmediafya.providers.PostProvider;
 import com.antonymilian.socialmediafya.providers.UsersProvider;
+import com.antonymilian.socialmediafya.utils.ViewedMessageHelper;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -116,6 +117,8 @@ public class UserProfileActivity extends AppCompatActivity {
         mAdapter = new MyPostAdapter(options, UserProfileActivity.this);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.startListening();
+        ViewedMessageHelper.updateOnline(true, UserProfileActivity.this);
+
     }
 
     @Override
@@ -123,6 +126,12 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onStop();
         mAdapter.startListening();
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ViewedMessageHelper.updateOnline(false, UserProfileActivity.this);
+    }
+
 
     private void checkIfExistPost() {
         mPostProvider.getPostByUser(mExtraidUser).addSnapshotListener(new EventListener<QuerySnapshot>() {

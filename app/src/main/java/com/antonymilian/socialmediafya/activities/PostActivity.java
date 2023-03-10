@@ -26,6 +26,7 @@ import com.antonymilian.socialmediafya.providers.AuthProvider;
 import com.antonymilian.socialmediafya.providers.ImageProvider;
 import com.antonymilian.socialmediafya.providers.PostProvider;
 import com.antonymilian.socialmediafya.utils.FileUtil;
+import com.antonymilian.socialmediafya.utils.ViewedMessageHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -385,5 +386,17 @@ public class PostActivity extends AppCompatActivity {
             mPhotoFile2 = new File(mAbsolutePhotoPath2);
             Picasso.with(PostActivity.this).load(mPhotoPath2).into(mImagenViewPost2);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ViewedMessageHelper.updateOnline(true, PostActivity.this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ViewedMessageHelper.updateOnline(false, PostActivity.this);
     }
 }

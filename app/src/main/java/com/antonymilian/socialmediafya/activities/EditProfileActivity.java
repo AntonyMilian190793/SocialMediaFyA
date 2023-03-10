@@ -1,10 +1,5 @@
 package com.antonymilian.socialmediafya.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,13 +14,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+
 import com.antonymilian.socialmediafya.R;
-import com.antonymilian.socialmediafya.models.Post;
 import com.antonymilian.socialmediafya.models.User;
 import com.antonymilian.socialmediafya.providers.AuthProvider;
 import com.antonymilian.socialmediafya.providers.ImageProvider;
 import com.antonymilian.socialmediafya.providers.UsersProvider;
 import com.antonymilian.socialmediafya.utils.FileUtil;
+import com.antonymilian.socialmediafya.utils.ViewedMessageHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -439,4 +439,17 @@ public class EditProfileActivity extends AppCompatActivity {
             Picasso.with(EditProfileActivity.this).load(mPhotoPath2).into(mImageViewCover);
         }
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ViewedMessageHelper.updateOnline(true, EditProfileActivity.this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ViewedMessageHelper.updateOnline(false, EditProfileActivity.this);
+    }
+
 }

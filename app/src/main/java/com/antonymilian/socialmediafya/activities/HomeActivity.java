@@ -16,6 +16,7 @@ import com.antonymilian.socialmediafya.fragments.ProfileFragment;
 import com.antonymilian.socialmediafya.providers.AuthProvider;
 import com.antonymilian.socialmediafya.providers.TokenProvider;
 import com.antonymilian.socialmediafya.providers.UsersProvider;
+import com.antonymilian.socialmediafya.utils.ViewedMessageHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
@@ -42,18 +43,14 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        updateOnline(true);
+        ViewedMessageHelper.updateOnline(true, HomeActivity.this);
     }
+
     @Override
-    protected void onStop() {
-        super.onStop();
-        updateOnline(false);
+    protected void onPause() {
+        super.onPause();
+        ViewedMessageHelper.updateOnline(false, HomeActivity.this);
     }
-    private void updateOnline(boolean status) {
-        mUsersProvider.updateOnline(mAuthProvider.getUid(), status);
-    }
-
-
 
     public void openFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
