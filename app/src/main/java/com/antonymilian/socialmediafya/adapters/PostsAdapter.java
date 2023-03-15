@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
@@ -38,6 +39,7 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
     LikesProvider mLikesProvider;
     AuthProvider mAuthProvider;
     TextView mTextViewNumerFilter;
+    ListenerRegistration mListener;
 
     public PostsAdapter(FirestoreRecyclerOptions<Post> options, Context context){
         super(options);
@@ -101,12 +103,11 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
     }
 
     private void getNumerLikesByPost(String idPost, final ViewHolder holder){
-        mLikesProvider.getLikesByPost(idPost).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        mListener = mLikesProvider.getLikesByPost(idPost).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 if(queryDocumentSnapshots != null){
                     int numerLikes = queryDocumentSnapshots.size();
-
                     if(numerLikes == 0){
                         holder.textViewLikes.setText(" No tiene me gusta");
                     }else if(numerLikes == 1){
@@ -169,6 +170,10 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
 
             }
         });
+    }
+
+    public ListenerRegistration getListener(){
+        return mListener;
     }
 
     @NonNull

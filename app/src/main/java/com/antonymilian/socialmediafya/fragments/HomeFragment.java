@@ -122,6 +122,14 @@ public class HomeFragment extends Fragment implements MaterialSearchBar.OnSearch
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(mPostAdapter.getListener() != null){
+            mPostAdapter.getListener().remove();
+        }
+    }
+
     private void goToPost() {
         Intent intent = new Intent(getContext(), PostActivity.class);
         startActivity(intent);

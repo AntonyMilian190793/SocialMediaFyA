@@ -45,6 +45,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
@@ -93,6 +94,7 @@ public class PostDetailActivity extends AppCompatActivity {
     String mIdUser = "";
     NotificationProvider mNotificationProvider;
     TokenProvider mTokenProvider;
+    ListenerRegistration mListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,18 +156,21 @@ public class PostDetailActivity extends AppCompatActivity {
     }
 
     private void getNumberLikes() {
-        mLikesProvider.getLikesByPost(mExtraPostId).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        mListener = mLikesProvider.getLikesByPost(mExtraPostId).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
 
-                int numberLikes = queryDocumentSnapshots.size();
-                if(numberLikes == 0){
-                    mTextViewLikes.setText(" No tiene me gusta");
-                }else if(numberLikes == 1){
-                    mTextViewLikes.setText(numberLikes + " Me gusta");
-                }else{
-                    mTextViewLikes.setText(numberLikes + " Me gustas");
+                if(queryDocumentSnapshots != null){
+                    int numberLikes = queryDocumentSnapshots.size();
+                    if(numberLikes == 0){
+                        mTextViewLikes.setText(" No tiene me gusta");
+                    }else if(numberLikes == 1){
+                        mTextViewLikes.setText(numberLikes + " Me gusta");
+                    }else{
+                        mTextViewLikes.setText(numberLikes + " Me gustas");
+                    }
                 }
+
             }
         });
     }
@@ -187,6 +192,14 @@ public class PostDetailActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         mAdapter.stopListening();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mListener != null){
+            mListener.remove();
+        }
     }
 
     @Override
