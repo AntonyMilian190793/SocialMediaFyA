@@ -8,6 +8,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Map;
+import java.util.Random;
 
 public class MyFirebaseMeesagingClient extends FirebaseMessagingService {
 
@@ -24,13 +25,26 @@ public class MyFirebaseMeesagingClient extends FirebaseMessagingService {
         String body = data.get("body");
 
         if(title != null){
-            showNotification(title, body);
+            if(title.equals("NUEVO MENSAJE")){
+                int idNotification = Integer.parseInt(data.get("idNotification"));
+                showNotificationMessage(title, body, idNotification);
+            }else{
+                showNotification(title, body);
+            }
+
         }
     }
 
     private void showNotification(String title, String body){
         NotificationHelper notificationHelper = new NotificationHelper(getBaseContext());
         NotificationCompat.Builder builder = notificationHelper.getNotification(title, body);
-        notificationHelper.getManager().notify(1, builder.build());
+        Random random = new Random();
+        int n = random.nextInt(10000);
+        notificationHelper.getManager().notify(n, builder.build());
+    }
+    private void showNotificationMessage(String title, String body, int idNotificationChat){
+        NotificationHelper notificationHelper = new NotificationHelper(getBaseContext());
+        NotificationCompat.Builder builder = notificationHelper.getNotification(title, body);
+        notificationHelper.getManager().notify(idNotificationChat, builder.build());
     }
 }
