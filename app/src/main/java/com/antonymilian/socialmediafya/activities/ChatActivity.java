@@ -41,6 +41,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -194,7 +195,7 @@ public class ChatActivity extends AppCompatActivity {
                     if(task.isSuccessful()){
                         mEditTextMessage.setText("");
                         mAdapter.notifyDataSetChanged();
-                        SendNotification(message.getMessage());
+                        SendNotification(message);
                     }else{
                         Toast.makeText(ChatActivity.this, "El mensaje no se pudo crear!", Toast.LENGTH_SHORT).show();
                     }
@@ -324,7 +325,7 @@ public class ChatActivity extends AppCompatActivity {
         mExtraIdChat = chat.getId();
         getMessageChat();
     }
-    private void SendNotification(final String message) {
+    private void SendNotification(final Message message) {
         String idUser = "";
 
         if(mAuhAuthProvider.getUid().equals(mExtraIdUser1)){
@@ -338,10 +339,17 @@ public class ChatActivity extends AppCompatActivity {
                 if(documentSnapshot.exists()){
                     if(documentSnapshot.contains("token")){
                         String token = documentSnapshot.getString("token");
+
+                        ArrayList<Message>messageArrayList = new ArrayList<>();
+                        messageArrayList.add(message);
+                        Gson gson = new Gson();
+                        String messages = gson.toJson(messageArrayList);
+
                         Map<String, String> data = new HashMap<>();
                         data.put("title", "NUEVO MENSAJE");
-                        data.put("body", message);
+                        data.put("body", message.getMessage());
                         data.put("idNotification", String.valueOf(mIdNotificationChat));
+                        data.put("messages", messages);
                         FCMBody body = new FCMBody(token, "high", "4500s", data);
                         mNotificationProvider.sendNotification(body).enqueue(new Callback<FCMResponse>() {
                             @Override
