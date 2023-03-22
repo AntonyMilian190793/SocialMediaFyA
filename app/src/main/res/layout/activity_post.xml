@@ -98,7 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Nombre de la publicación"
-                    android:inputType="text"
+                    android:inputType="textCapSentences|textAutoCorrect"
                     android:maxLength="500">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -131,7 +131,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Descripción"
-                    android:inputType="textMultiLine"
+                    android:inputType="textCapSentences|textMultiLine|textAutoCorrect"
                     android:maxLength="1200"
                     android:maxLines="4">
 
