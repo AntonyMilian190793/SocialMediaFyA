@@ -64,21 +64,21 @@ public class NotificationHelper extends ContextWrapper {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(body).setBigContentTitle(title));
     }
 
-    public NotificationCompat.Builder getNotificationMessage(Message[] messages){
+    public NotificationCompat.Builder getNotificationMessage(Message[] messages, String usernameSender, String usernameReceiver, String lastMessage){
         Person person1 = new Person.Builder()
-                .setName("Antony")
+                .setName(usernameReceiver)
                 .setIcon(IconCompat.createWithResource(getApplicationContext(), R.mipmap.ic_launcher))
                 .build();
 
         Person person2 = new Person.Builder()
-                .setName("Jorge")
+                .setName(usernameSender)
                 .setIcon(IconCompat.createWithResource(getApplicationContext(), R.mipmap.ic_launcher))
                 .build();
 
         NotificationCompat.MessagingStyle messagingStyle = new NotificationCompat.MessagingStyle(person1);
         NotificationCompat.MessagingStyle.Message message1 = new
                 NotificationCompat.MessagingStyle.Message(
-                        "Ultimo mensaje",
+                            lastMessage,
                             new Date().getTime(),
                             person1);
         messagingStyle.addMessage(message1);
