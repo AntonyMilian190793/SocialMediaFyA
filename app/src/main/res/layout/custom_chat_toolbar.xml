@@ -19,7 +19,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         app:civ_circle_background_color="@color/white"
-        android:src="@drawable/ic_person"
+        android:src="@drawable/ic_person2"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_toRightOf="@+id/imageViewBack"/>
