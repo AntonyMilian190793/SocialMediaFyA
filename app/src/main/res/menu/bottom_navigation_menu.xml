@@ -3,7 +3,7 @@
     <item
         android:id="@+id/itemHome"
         android:icon="@drawable/ic_home"
-        android:title="Home" />
+        android:title="Inicio" />
 
     <item
         android:id="@+id/itemFiltros"
@@ -16,9 +16,13 @@
         android:title="Chats" />
 
     <item
+        android:id="@+id/itemCronograma"
+        android:icon="@drawable/ic_calendar"
+        android:title="Cronograma" />
+
+    <item
         android:id="@+id/itemProfile"
         android:icon="@drawable/ic_persona"
-        android:title="Profile" />
-
+        android:title="Perfil" />
 
 </menu>

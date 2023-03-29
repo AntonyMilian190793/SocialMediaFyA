@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.antonymilian.socialmediafya.R;
+import com.antonymilian.socialmediafya.fragments.CalendarFragment;
 import com.antonymilian.socialmediafya.fragments.ChatsFragment;
 import com.antonymilian.socialmediafya.fragments.FiltersFragment;
 import com.antonymilian.socialmediafya.fragments.HomeFragment;
@@ -75,6 +76,9 @@ public class HomeActivity extends AppCompatActivity {
                     }else if (item.getItemId() == R.id.itemProfile){
                         //FREAGMENT Profile
                         openFragment(new ProfileFragment());
+                    }else if (item.getItemId() == R.id.itemCronograma){
+                        //FREAGMENT Profile
+                        openFragment(new CalendarFragment());
                     }
                     return true;
                 }
