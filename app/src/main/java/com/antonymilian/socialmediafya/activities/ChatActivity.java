@@ -81,6 +81,8 @@ public class ChatActivity extends AppCompatActivity {
     TokenProvider mTokenProvider;
     String mMyUsername;
     String mUsernameChat;
+    String mImageReceiver;
+    String mImageSender;
 
 
     @Override
@@ -260,10 +262,10 @@ public class ChatActivity extends AppCompatActivity {
 
                     }
                     if(documentSnapshot.contains("image_profile")){
-                        String imageProfile = documentSnapshot.getString("image_profile");
-                        if(imageProfile != null){
-                            if(!imageProfile.equals("")){
-                                Picasso.with(ChatActivity.this).load(imageProfile).into(mCircleImageProfile);
+                        mImageReceiver = documentSnapshot.getString("image_profile");
+                        if(mImageReceiver != null){
+                            if(!mImageReceiver.equals("")){
+                                Picasso.with(ChatActivity.this).load(mImageReceiver).into(mCircleImageProfile);
 
                             }
                         }
@@ -385,6 +387,8 @@ public class ChatActivity extends AppCompatActivity {
         data.put("messages", messages);
         data.put("usernameSender", mMyUsername.toUpperCase());
         data.put("usernameReceiver", mUsernameChat.toUpperCase());
+        data.put("imageSender", mImageSender);
+        data.put("imageReceiver", mImageReceiver);
 
         String ideSender = "";
         if(mAuhAuthProvider.getUid().equals(mExtraIdUser1)){
@@ -431,6 +435,9 @@ public class ChatActivity extends AppCompatActivity {
                 if(documentSnapshot.exists()){
                     if(documentSnapshot.contains("username")){
                         mMyUsername = documentSnapshot.getString("username");
+                    }
+                    if(documentSnapshot.contains("image_profile")){
+                        mImageSender = documentSnapshot.getString("image_profile");
                     }
                 }
             }

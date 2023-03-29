@@ -6,12 +6,12 @@
         <type value="RUNNING_DEVICE_TARGET" />
         <deviceKey>
           <Key>
-            <type value="SERIAL_NUMBER" />
-            <value value="adb-3df44b02-oN4UIP._adb-tls-connect._tcp" />
+            <type value="VIRTUAL_DEVICE_PATH" />
+            <value value="C:\Users\anton\.android\avd\Antony_Milian.avd" />
           </Key>
         </deviceKey>
       </Target>
     </runningDeviceTargetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2023-03-24T20:35:44.790444400Z" />
+    <timeTargetWasSelectedWithDropDown value="2023-03-29T17:50:12.738798600Z" />
   </component>
 </project>
