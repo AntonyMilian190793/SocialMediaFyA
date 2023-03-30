@@ -185,10 +185,10 @@ public class ChatActivity extends AppCompatActivity {
 
             if(mAuhAuthProvider.getUid().equals(mExtraIdUser1)){
                   message.setIdSender(mExtraIdUser1);
-                  message.setIdReciver(mExtraIdUser2);
+                  message.setIdReceiver(mExtraIdUser2);
             }else{
                 message.setIdSender(mExtraIdUser2);
-                message.setIdReciver(mExtraIdUser1);
+                message.setIdReceiver(mExtraIdUser1);
             }
             message.setTimestamp(new Date().getTime());
             message.setViewed(false);
@@ -389,6 +389,9 @@ public class ChatActivity extends AppCompatActivity {
         data.put("usernameReceiver", mUsernameChat.toUpperCase());
         data.put("imageSender", mImageSender);
         data.put("imageReceiver", mImageReceiver);
+        data.put("idSender", message.getIdSender());
+        data.put("idReceiver", message.getIdReceiver());
+        data.put("idChat", message.getIdChat());
 
         String ideSender = "";
         if(mAuhAuthProvider.getUid().equals(mExtraIdUser1)){

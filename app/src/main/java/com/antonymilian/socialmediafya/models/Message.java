@@ -4,19 +4,19 @@ public class Message {
 
     private String id;
     private String idSender;
-    private String idReciver;
+    private String idReceiver;
     private String idChat;
     private String message;
     private long timestamp;
     private boolean viewed;
 
-    public Message(){
+    public Message() {
     }
 
-    public Message(String id, String idSender, String idReciver, String idChat, String message, long timestamp, boolean viewed) {
+    public Message(String id, String idSender, String idReceiver, String idChat, String message, long timestamp, boolean viewed) {
         this.id = id;
         this.idSender = idSender;
-        this.idReciver = idReciver;
+        this.idReceiver = idReceiver;
         this.idChat = idChat;
         this.message = message;
         this.timestamp = timestamp;
@@ -39,12 +39,12 @@ public class Message {
         this.idSender = idSender;
     }
 
-    public String getIdReciver() {
-        return idReciver;
+    public String getIdReceiver() {
+        return idReceiver;
     }
 
-    public void setIdReciver(String idReciver) {
-        this.idReciver = idReciver;
+    public void setIdReceiver(String idReceiver) {
+        this.idReceiver = idReceiver;
     }
 
     public String getIdChat() {
