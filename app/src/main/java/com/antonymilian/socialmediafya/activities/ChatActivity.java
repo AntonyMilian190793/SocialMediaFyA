@@ -81,8 +81,8 @@ public class ChatActivity extends AppCompatActivity {
     TokenProvider mTokenProvider;
     String mMyUsername;
     String mUsernameChat;
-    String mImageReceiver;
-    String mImageSender;
+    String mImageReceiver = "";
+    String mImageSender = "";
 
 
     @Override
@@ -387,11 +387,20 @@ public class ChatActivity extends AppCompatActivity {
         data.put("messages", messages);
         data.put("usernameSender", mMyUsername.toUpperCase());
         data.put("usernameReceiver", mUsernameChat.toUpperCase());
-        data.put("imageSender", mImageSender);
-        data.put("imageReceiver", mImageReceiver);
         data.put("idSender", message.getIdSender());
         data.put("idReceiver", message.getIdReceiver());
         data.put("idChat", message.getIdChat());
+
+        if(mImageSender.equals("")){
+            mImageSender = "IMAGEN NO VALIDA";
+        }
+
+        if(mImageReceiver.equals("")){
+            mImageReceiver = "IMAGEN NO VALIDA";
+        }
+
+        data.put("imageSender", mImageSender);
+        data.put("imageReceiver", mImageReceiver);
 
         String ideSender = "";
         if(mAuhAuthProvider.getUid().equals(mExtraIdUser1)){
