@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 
 import com.antonymilian.socialmediafya.models.Message;
 import com.antonymilian.socialmediafya.providers.MessageProvider;
+import com.antonymilian.socialmediafya.providers.TokenProvider;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -23,14 +24,27 @@ public class MessageReceiver extends BroadcastReceiver {
     String mExtraIdSender;
     String mExtraIdReceiver;
     String mExtraIdChat;
+    String mExtraUsernameSender;
+    String mExtraUsernameReceiver;
+    String mExtraImageSender;
+    String mExtraImageReceiver;
     int mExtraIdnotification;
+
+    TokenProvider mTokenProvider;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         mExtraIdSender = intent.getExtras().getString("idSender");
         mExtraIdReceiver = intent.getExtras().getString("idReceiver");
         mExtraIdChat = intent.getExtras().getString("idChat");
+        mExtraUsernameSender = intent.getExtras().getString("usernameSender");
+        mExtraUsernameReceiver = intent.getExtras().getString("usernameReceiver");
+        mExtraImageSender = intent.getExtras().getString("imageSender");
+        mExtraImageReceiver = intent.getExtras().getString("imageReceiver");
+
         mExtraIdnotification = intent.getExtras().getInt("idNotification");
+
+        mTokenProvider = new TokenProvider();
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(mExtraIdnotification);
@@ -62,7 +76,6 @@ public class MessageReceiver extends BroadcastReceiver {
             }
         });
     }
-
     private CharSequence getMessageText(Intent intent){
         Bundle remoteInput = RemoteInput.getResultsFromIntent(intent);
 

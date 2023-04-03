@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,6 +33,7 @@ public class ChatsFragment extends Fragment {
     View mView;
     ChatsProvider mChatsProviders;
     AuthProvider mAuthProvider;
+    Toolbar mToolbar;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -77,6 +80,11 @@ public class ChatsFragment extends Fragment {
         mChatsProviders = new ChatsProvider();
         mAuthProvider = new AuthProvider();
         mRecyclerView = mView.findViewById(R.id.recycleViewChats);
+        mToolbar = mView.findViewById(R.id.toolbar);
+
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Chats");
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(linearLayoutManager);
         return mView;
